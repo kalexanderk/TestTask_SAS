@@ -5,12 +5,7 @@ DBMS = xlsx OUT = test.initial_data replace;
 format dt DDMMYY10.;
 run;
 
-<<<<<<< HEAD
 data test.result(drop=wkday_index coun);
-=======
-
-data test.result(drop=wkday_index);
->>>>>>> b94749bd36eea8dce2552be1a9fdcb9251f49f6c
 set test.initial_data;
 wkday_index=weekday(dt);
 length weekday $ 10;
@@ -21,7 +16,6 @@ if wkday_index=1 then weekday="Sunday";
 	else if wkday_index=5 then weekday="Thursday";
 	else if wkday_index=6 then weekday="Friday";
 	else if wkday_index=7 then weekday="Saturday";
-<<<<<<< HEAD
 by lead_id;
 if first.lead_id and amount ne 0 then coun=0;
 else if first.lead_id and amount=0 then coun=1;
@@ -40,6 +34,3 @@ end;
 retain coun;
 run;
  
-=======
-run;
->>>>>>> b94749bd36eea8dce2552be1a9fdcb9251f49f6c
