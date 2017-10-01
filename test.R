@@ -42,3 +42,5 @@ return(df)
 df_t<-find_days_not_returned(df)
 df_t$id_shifted=NULL
 #df_t is the result
+
+write.xlsx(df_t, "Files/result.xlsx")

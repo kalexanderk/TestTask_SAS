@@ -33,4 +33,11 @@ else if lead_id ne lag(lead_id) or amount>0 then do;
 end;
 retain coun;
 run;
+
+proc export 
+  data=test.result 
+  dbms=xlsx 
+  outfile="c:\workshop\test\Files\result.xlsx" 
+  replace;
+run;
  
