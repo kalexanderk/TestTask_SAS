@@ -12,23 +12,33 @@ shift <- function(d, k) rbind( tail(d,k), head(d,-k), deparse.level = 0 )
 df['id_shifted'] <- shift(df['lead_id'], 1)
 
 coun<-0
+
 find_days_not_returned<-function(df){
   df['days_not_returned']<-0
   for(i in 1:nrow(df)){
-    if (df[i, 'lead_id']==df[i, 'id_lagged']) and (df[i, 'amount']==0){
-      if (df[i, 'wk_index']==5) or (df[i, 'wk_index']==6) {df[i, 'days_not_returned']=coun}
+    if ((df[i, 'lead_id']==df[i, 'id_shifted']) & (df[i, 'amount']==0)){
+      if ((df[i, 'weekday']=='Saturday') | (df[i, 'weekday']=='Sunday')) {
+        df[i, 'days_not_returned']=coun
+        }
       else{
         coun=coun+1
-        df[i, 'days_not_returned']=coun}
+        df[i, 'days_not_returned']=coun 
+        }
     }
-  elif (df[i, 'lead_id']!=df[i, 'id_lagged']) | (df[i, 'amount']>0){
-    if df[i, 'amount'] != 0{
+  else if ((df[i, 'lead_id']!=df[i, 'id_shifted']) | (df[i, 'amount']>0)){
+    if (df[i, 'amount'] != 0){
       coun=0
-      df[i,'days_not_returned']=coun}
-    if df[i, 'amount'] == 0{
+      df[i,'days_not_returned']=coun
+      }
+    if (df[i, 'amount'] == 0){
       coun=1
-      df[i, 'days_not_returned']=coun}
+      df[i, 'days_not_returned']=coun
+      }
   }
 }
-return 0;
+return(df)
 }
+
+df_t<-find_days_not_returned(df)
+df_t$id_shifted=NULL
+#df_t is the result
